@@ -1,5 +1,5 @@
-import db from '../db';
 import { DataTypes } from 'sequelize';
+import db from '../db';
 
 const Player = db.sequelize.define('Player', {
     playerId: {
@@ -43,7 +43,7 @@ const Player = db.sequelize.define('Player', {
         type: DataTypes.DATEONLY,
         allowNull: false,
         validate: {
-            birthdateValidator(value: string): void {
+            birthdateValidator: (value: string): void => {
                 if (new Date(value).toDateString() > new Date().toDateString()) {
                     throw new Error('Birthdate cannot be a future date.');
                 }

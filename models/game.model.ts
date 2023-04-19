@@ -1,5 +1,5 @@
-import db from '../db';
 import { DataTypes } from 'sequelize';
+import db from '../db';
 
 const Game = db.sequelize.define('Game', {
     gameId: {
@@ -14,7 +14,7 @@ const Game = db.sequelize.define('Game', {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-            isAlphanumeric: true
+            notEmpty: true
         }
     },
 });
