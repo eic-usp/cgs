@@ -1,8 +1,31 @@
-import { DataTypes } from 'sequelize';
+import { DataTypes, Model } from 'sequelize';
 import db from '../db';
 
-const Player = db.sequelize.define('Player', {
-    playerId: {
+interface PlayerAttributes {
+    id: string,
+    password: string,
+    email: string,
+    firstName: string,
+    lastName: string,
+    birthdate: Date,
+    highScore: number
+}
+
+class Player extends Model<PlayerAttributes> implements PlayerAttributes {
+    declare id: string;
+    declare password: string;
+    declare email: string;
+    declare firstName: string;
+    declare lastName: string;
+    declare birthdate: Date;
+    declare highScore: number;
+
+    declare readonly createdAt: Date;
+    declare readonly updatedAt: Date;
+}
+
+ Player.init({
+    id: {
         primaryKey: true,
         type: DataTypes.STRING,
         allowNull: false,
@@ -44,12 +67,25 @@ const Player = db.sequelize.define('Player', {
         allowNull: false,
         validate: {
             birthdateValidator: (value: string): void => {
-                if (new Date(value).toDateString() > new Date().toDateString()) {
+                if (new Date(value) > new Date()) {
                     throw new Error('Birthdate cannot be a future date.');
                 }
             }
         }
-    }
+    },
+    highScore: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
+        validate: {
+            min: {
+                args: [0],
+                msg: 'Score cannot be negative.'
+            }
+        }
+    },
+}, {
+    sequelize: db.sequelize
 });
 
 export default Player;

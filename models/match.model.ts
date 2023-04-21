@@ -1,16 +1,30 @@
-import { DataTypes } from 'sequelize';
+import { DataTypes, Model } from 'sequelize';
 import db from '../db';
 import Player from './player.model';
 import Game from './game.model';
 
-const Match = db.sequelize.define('Match', {
+interface MatchAttributes {
+    playerId: string;
+    gameId: string;
+    playedAt: Date;
+    score: number;
+}
+
+class Match extends Model<MatchAttributes> implements MatchAttributes {
+    declare playerId: string;
+    declare gameId: string;
+    declare playedAt: Date;
+    declare score: number;
+}
+
+Match.init({
     playerId: {
         primaryKey: true,
         type: DataTypes.STRING,
         allowNull: false,
         references: {
             model: Player,
-            key: 'playerId'
+            key: 'id'
         }
     },
     gameId: {
@@ -19,7 +33,7 @@ const Match = db.sequelize.define('Match', {
         allowNull: false,
         references: {
             model: Game,
-            key: 'gameId'
+            key: 'id'
         }
     },
     playedAt: {
@@ -30,16 +44,16 @@ const Match = db.sequelize.define('Match', {
     score: {
         type: DataTypes.INTEGER,
         validate: {
-            scoreValidator: (value: number): void => {
-                if (value < 0) {
-                    throw new Error('Score cannot be negative.');
-                }
+            min: {
+                args: [0],
+                msg: 'Score cannot be negative.'
             }
         }
     }
 }, {
     createdAt: 'playedAt',
     updatedAt: false,
+    sequelize: db.sequelize
 });
 
 Player.belongsToMany(Game, { through: { model: Match, unique: false }, foreignKey: 'playerId' });
