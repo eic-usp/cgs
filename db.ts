@@ -1,13 +1,13 @@
 import 'dotenv/config';
-import { Sequelize, SyncOptions } from 'sequelize';
+import { Dialect, Sequelize, SyncOptions } from 'sequelize';
 
-const secret = process.env['MYSQL_URI'];
+const uri = process.env['MYSQL_URI'];
+const dialect: Dialect = process.env['DB_DIALECT'] as Dialect;
+const environment = process.env['NODE_ENV'];
 
-const sequelize = new Sequelize(secret, {
-    dialect: 'mysql',
-    sync: {
-        force: true
-    }
+const sequelize = new Sequelize(uri, {
+    dialect: dialect,
+    logging: environment === 'development'
 });
 
 const db = {
@@ -16,17 +16,17 @@ const db = {
         try {
             await sequelize.authenticate();
             console.log('Connection to the database has been established successfully.');
-        } catch (error) {
-            console.error('Unable to connect to the database:', error);
+        } catch (e) {
+            console.error('Unable to connect to the database:', e);
         }
     },
     sync: async (options?: SyncOptions): Promise<Sequelize> => {
         try {
             const res = await sequelize.sync(options);
-            console.log("All models were synchronized successfully.");
+            console.log('All models were synchronized successfully.');
             return res;
-        } catch (error) {
-            console.error('Unable to synchronize all models:', error);
+        } catch (e) {
+            console.error('Unable to synchronize all models:', e);
         }
     }
 };

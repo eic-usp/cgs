@@ -2,7 +2,7 @@
   "name": "cgs",
   "version": "0.1.0",
   "description": "Central Game Server",
-  "main": "index.js",
+  "main": "build/app.js",
   "repository": "git@github.com:eic-usp/cgs.git",
   "author": "Lucas Xavier Leite <lucasxavierleite@pm.me>",
   "license": "Apache-2.0",
@@ -12,9 +12,11 @@
     "dev": "nodemon ./bin/www.ts"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
     "@types/cookie-parser": "^1.4.3",
     "@types/cors": "^2.8.13",
     "@types/express": "^4.17.17",
+    "@types/jsonwebtoken": "^9.0.1",
     "@types/morgan": "^1.9.4",
     "@types/node": "^18.15.11",
     "nodemon": "^2.0.22",
@@ -22,11 +24,14 @@
     "typescript": "^5.0.4"
   },
   "dependencies": {
+    "bcrypt": "^5.1.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "http": "^0.0.1-security",
+    "http-status-codes": "^2.2.0",
+    "jsonwebtoken": "^9.0.0",
     "morgan": "^1.10.0",
     "mysql2": "^3.2.1",
     "sequelize": "^6.31.0"
