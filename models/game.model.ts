@@ -1,38 +1,37 @@
-import { DataTypes, Model } from 'sequelize';
+import { Model, DataTypes, InferAttributes, InferCreationAttributes, CreationOptional } from 'sequelize';
 import db from '../db';
 
-interface GameAttributes {
-    id: string;
-    displayName: string;
-}
-
-class Game extends Model<GameAttributes> implements GameAttributes {
+class Game extends Model<InferAttributes<Game>, InferCreationAttributes<Game>> {
     declare id: string;
     declare displayName: string;
 
-    declare readonly createdAt: Date;
-    declare readonly updatedAt: Date;
+    declare readonly createdAt: CreationOptional<Date>;
+    declare readonly updatedAt: CreationOptional<Date>;
 }
 
-Game.init({
-    id: {
-        primaryKey: true,
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-            len: [0, 10]
-        }
+Game.init(
+    {
+        id: {
+            primaryKey: true,
+            type: DataTypes.STRING,
+            validate: {
+                len: [0, 10]
+            }
+        },
+        displayName: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            validate: {
+                notEmpty: true
+            }
+        },
+        createdAt: DataTypes.DATE,
+        updatedAt: DataTypes.DATE
     },
-    displayName: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-            notEmpty: true
-        }
-    },
-}, {
+    {
         sequelize: db.sequelize
-});
+    }
+);
 
 
 export default Game;
