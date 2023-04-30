@@ -6,5 +6,5 @@ export default interface Controller {
     update?: (req: Request<never, never, Model>, res: Response) => Promise<Response>;
     remove?: (req: Request<never, never, { id: string }>, res: Response) => Promise<Response>;
     find?: (req: Request<never, never, { id: string }>, res: Response) => Promise<Response>;
-    findAll?: (req: Request<never, never, { id: string }>, res: Response) => Promise<Response>;
+    findAll?: (req: Request, res: Response) => Promise<Response>;
 }

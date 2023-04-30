@@ -50,7 +50,10 @@ export const login = async (req: Request<never, never, PlayerLoginAttributes>, r
 
         if (await bcrypt.compare(password, player.password)) {
             const token = jwt.sign({ id: player.id, email: player.email }, secret, { expiresIn: expirationTime });
-            return res.status(StatusCodes.OK).send({ token: token });
+            return res.cookie('authorization', `Bearer ${token}`, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production'
+            }).status(StatusCodes.OK).send();
         } else {
             throw new Error('Incorrect password');
         }
@@ -61,9 +64,9 @@ export const login = async (req: Request<never, never, PlayerLoginAttributes>, r
 }
 
 // const update = (req: Request<never, never, Player>, res: Response): Promise<Response> {};
-// const remove = (req: Request<never, never, RequestById>, res: Response): Promise<Response> {};
-// const find = (req: Request<never, never, RequestById>, res: Response): Promise<Response> {};
-// const findAll = (req: Request<never, never, RequestById>, res: Response): Promise<Response> {};
+// const remove = (req: Request<never, never, { id: string }>, res: Response): Promise<Response> {};
+// const find = (req: Request<never, never, { id: string }>, res: Response): Promise<Response> {};
+// const findAll = (req: Request<never, never>, res: Response): Promise<Response> {};
 
 interface PlayerController extends Controller {
     login: (req: Request<never, never, PlayerLoginAttributes>, res: Response) => Promise<Response>;

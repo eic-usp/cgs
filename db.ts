@@ -7,7 +7,7 @@ const environment = process.env['NODE_ENV'];
 
 const sequelize = new Sequelize(uri, {
     dialect: dialect,
-    logging: environment === 'development'
+    logging: environment === 'development' ? console.log : false
 });
 
 const db = {
