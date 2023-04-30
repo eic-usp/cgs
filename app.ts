@@ -6,6 +6,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import db from './db';
 import playerRoutes from './routes/player.routes';
+import matchRoutes from './routes/match.routes';
 
 import Game from './models/game.model';
 
@@ -47,5 +48,6 @@ app.use('/', express.static(path.join(__dirname, '../public')));
 app.use('/ping', (_, res) => res.status(200).send('Pong'));
 
 app.use('/api/player', playerRoutes);
+app.use('/api/match', matchRoutes);
 
 export default app;
