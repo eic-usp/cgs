@@ -4,10 +4,10 @@ import jwt, { JwtPayload } from 'jsonwebtoken';
 import config from '../config';
 
 const verify = async (req: Request, res: Response, next: NextFunction): Promise<Response | void> => {
-    const { authorization } = req.cookies;
+    const authorization = req.headers.authorization ?? req.cookies[config.COOKIE_NAME_AUTHORIZATION];
 
     if (!authorization) {
-        return res.status(StatusCodes.UNAUTHORIZED).send();
+        return res.status(StatusCodes.UNAUTHORIZED).end();
     }
 
     try {
@@ -18,7 +18,7 @@ const verify = async (req: Request, res: Response, next: NextFunction): Promise<
 
         return next();   
     } catch (e) {
-        return res.status(StatusCodes.UNAUTHORIZED).send();
+        return res.status(StatusCodes.UNAUTHORIZED).end();
     }
 }
 

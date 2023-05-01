@@ -7,7 +7,8 @@ const config = {
     DB_URI: process.env['DB_URI'],
     DB_DIALECT: process.env['DB_DIALECT'] as Dialect,
     JWT_KEY: process.env['JWT_KEY'],
-    JWT_EXPIRES_IN: process.env['JWT_EXPIRES_IN']
+    JWT_EXPIRES_IN: process.env['JWT_EXPIRES_IN'],
+    COOKIE_NAME_AUTHORIZATION: process.env['COOKIE_NAME_AUTHORIZATION']
 }
 
 export default config;

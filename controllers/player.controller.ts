@@ -25,8 +25,6 @@ interface PlayerLoginAttributes {
     password: string;
 }
 
-const cookie_authorization = 'authorization';
-
 export const login = async (req: Request<never, never, PlayerLoginAttributes>, res: Response): Promise<Response> => {
     const { emailOrId, password } = req.body;
 
@@ -50,16 +48,33 @@ export const login = async (req: Request<never, never, PlayerLoginAttributes>, r
 
         if (await bcrypt.compare(password, player.password)) {
             const token = jwt.sign({ id: player.id, email: player.email }, config.JWT_KEY, { expiresIn: config.JWT_EXPIRES_IN });
-            return res.cookie(cookie_authorization, `Bearer ${token}`, {
+
+            delete player.password;
+
+            return res.cookie(config.COOKIE_NAME_AUTHORIZATION, `Bearer ${token}`, {
                 httpOnly: true,
                 secure: config.NODE_ENV === 'production'
-            }).status(StatusCodes.OK).end();
+            }).status(StatusCodes.OK).json({ token: token });
         } else {
             throw new Error('Incorrect password');
         }
     } catch (e) {
         console.error(e);
-        return res.status(StatusCodes.FORBIDDEN).send(e);
+        return res.status(StatusCodes.UNAUTHORIZED).send(e.message);
+    }
+}
+
+const validate = async (req: Request, res: Response): Promise<Response> => {
+    try {
+        const player = await Player.findByPk(req.user.id);
+        
+        if (player === null) {
+            throw new Error('Player not found')
+        }
+
+        return res.status(StatusCodes.OK).end();
+    } catch (e) {
+        return res.status(StatusCodes.UNAUTHORIZED).send(e.message);
     }
 }
 
@@ -70,11 +85,13 @@ export const login = async (req: Request<never, never, PlayerLoginAttributes>, r
 
 interface PlayerController extends Controller {
     login: (req: Request<never, never, PlayerLoginAttributes>, res: Response) => Promise<Response>;
+    validate: (req: Request, res: Response) => Promise<Response>;
 }
 
 const playerController: PlayerController = {
     create: create,
-    login: login
+    login: login,
+    validate: validate
 };
 
 export default playerController;
