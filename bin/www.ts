@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 
-import 'dotenv/config';
 import http from 'http';
 import app from '../app.js';
+import config from '../config.js';
 
 const server = http.createServer(app);
+const port = config.SERVER_PORT;
 
-const port = process.env['PORT'] || 3001;
 app.set('port', port);
 
 server.listen(port, (): void => {

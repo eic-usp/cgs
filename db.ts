@@ -1,13 +1,9 @@
-import 'dotenv/config';
-import { Dialect, Sequelize, SyncOptions } from 'sequelize';
+import { Sequelize, SyncOptions } from 'sequelize';
+import config from './config';
 
-const uri = process.env['MYSQL_URI'];
-const dialect: Dialect = process.env['DB_DIALECT'] as Dialect;
-const environment = process.env['NODE_ENV'];
-
-const sequelize = new Sequelize(uri, {
-    dialect: dialect,
-    logging: environment === 'development' ? console.log : false
+const sequelize = new Sequelize(config.DB_URI, {
+    dialect: config.DB_DIALECT,
+    logging: config.NODE_ENV === 'development' ? console.log : false
 });
 
 const db = {

@@ -4,6 +4,7 @@ import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import config from './config';
 import db from './db';
 import playerRoutes from './routes/player.routes';
 import matchRoutes from './routes/match.routes';
@@ -12,7 +13,6 @@ import Game from './models/game.model';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const environment = process.env['NODE_ENV'];
 
 const app = express();
 
@@ -24,7 +24,7 @@ app.use(morgan('combined'));
 
 await db.connect();
 
-if (environment === 'development') {
+if (config.NODE_ENV === 'development') {
     try {
         await db.sequelize.query('SET FOREIGN_KEY_CHECKS = 0', { raw: true });
         await db.sequelize.sync({ force: true });

@@ -1,10 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import jwt, { JwtPayload } from 'jsonwebtoken';
+import config from '../config';
 
-const secret = process.env['JWT_KEY']
-
-const verify = async(req: Request, res: Response, next: NextFunction): Promise<Response | void> => {
+const verify = async (req: Request, res: Response, next: NextFunction): Promise<Response | void> => {
     const { authorization } = req.cookies;
 
     if (!authorization) {
@@ -13,7 +12,7 @@ const verify = async(req: Request, res: Response, next: NextFunction): Promise<R
 
     try {
         const token = authorization.split(' ')[1];
-        const payload = jwt.verify(token, secret) as JwtPayload;
+        const payload = jwt.verify(token, config.JWT_KEY) as JwtPayload;
 
         req.user = { id: payload.id };
 

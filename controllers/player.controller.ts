@@ -1,13 +1,11 @@
-import { Request, Response } from 'express';
+import { Request, Response, RequestHandler } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { Op } from 'sequelize';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import config from '../config';
 import Controller from './Controller';
 import Player from "../models/player.model";
-
-const secret = process.env['JWT_KEY'];
-const expirationTime = process.env['JWT_EXPIRES_IN'];
 
 const create = async (req: Request<never, never, Player>, res: Response): Promise<Response> => {
     const player = req.body;
@@ -27,11 +25,13 @@ interface PlayerLoginAttributes {
     password: string;
 }
 
+const cookie_authorization = 'authorization';
+
 export const login = async (req: Request<never, never, PlayerLoginAttributes>, res: Response): Promise<Response> => {
     const { emailOrId, password } = req.body;
 
     if (!emailOrId || !password)  {
-        return res.status(StatusCodes.BAD_REQUEST).send();
+        return res.status(StatusCodes.BAD_REQUEST).end();
     }
 
     try {
@@ -49,11 +49,11 @@ export const login = async (req: Request<never, never, PlayerLoginAttributes>, r
         }
 
         if (await bcrypt.compare(password, player.password)) {
-            const token = jwt.sign({ id: player.id, email: player.email }, secret, { expiresIn: expirationTime });
-            return res.cookie('authorization', `Bearer ${token}`, {
+            const token = jwt.sign({ id: player.id, email: player.email }, config.JWT_KEY, { expiresIn: config.JWT_EXPIRES_IN });
+            return res.cookie(cookie_authorization, `Bearer ${token}`, {
                 httpOnly: true,
-                secure: process.env.NODE_ENV === 'production'
-            }).status(StatusCodes.OK).send();
+                secure: config.NODE_ENV === 'production'
+            }).status(StatusCodes.OK).end();
         } else {
             throw new Error('Incorrect password');
         }
