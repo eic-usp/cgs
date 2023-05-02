@@ -8,6 +8,7 @@ import config from './config';
 import db from './db';
 import playerRoutes from './routes/player.routes';
 import matchRoutes from './routes/match.routes';
+import gameRoutes from './routes/game.routes';
 
 import Game from './models/game.model';
 
@@ -49,5 +50,6 @@ app.use('/ping', (_, res) => res.status(200).send('Pong'));
 
 app.use('/api/player', playerRoutes);
 app.use('/api/match', matchRoutes);
+app.use('/api/game', gameRoutes);
 
 export default app;
