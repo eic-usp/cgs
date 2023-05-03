@@ -8,7 +8,13 @@ const config = {
     DB_DIALECT: process.env['DB_DIALECT'] as Dialect,
     JWT_KEY: process.env['JWT_KEY'],
     JWT_EXPIRES_IN: process.env['JWT_EXPIRES_IN'],
-    COOKIE_NAME_AUTHORIZATION: process.env['COOKIE_NAME_AUTHORIZATION']
+    COOKIE_NAME_AUTHORIZATION: process.env['COOKIE_NAME_AUTHORIZATION'],
+    get cookieOptions() {
+        return {
+            httpOnly: true,
+            secure: this.NODE_ENV === 'production'
+        }
+    }
 }
 
 export default config;

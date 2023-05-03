@@ -3,13 +3,14 @@ import { StatusCodes } from 'http-status-codes';
 import { ForeignKeyConstraintError, ValidationError } from 'sequelize';
 import Controller from './Controller';
 import Match from "../models/match.model";
+import matchService from '../services/match.services';
 
 const create = async (req: Request<never, never, Match>, res: Response): Promise<Response> => {
     const match = req.body;
     match.playerId = req.user.id;
 
     try {
-        await Match.create(match);
+        await matchService.create(match);
         return res.status(StatusCodes.OK).send('Match created successfully.');
     } catch (e) {
         if (e instanceof ForeignKeyConstraintError || e instanceof ValidationError) {

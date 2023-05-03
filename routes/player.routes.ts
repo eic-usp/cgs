@@ -10,6 +10,7 @@ playerRoutes.post('/', playerController.create);
 // playerRoutes.put('/:id', playerController.update);
 // playerRoutes.delete('/:id', playerController.remove);
 playerRoutes.post('/login', playerController.login);
-playerRoutes.post('/validate', auth.verify, playerController.validate);
+playerRoutes.get('/validate', auth.verify, playerController.validate);
+playerRoutes.get('/:gameId/ranking', auth.verify, playerController.getRanking);
 
 export default playerRoutes;

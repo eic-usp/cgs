@@ -1,38 +1,14 @@
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { Sequelize } from 'sequelize';
 import Controller from './Controller';
-import Game from '../models/game.model';
-import Match from '../models/match.model';
+import gameService from '../services/game.service';
 
-const rankings = async (req: Request<{ id: string }>, res: Response): Promise<Response> => {
+const getRankings = async (req: Request<{ id: string }>, res: Response): Promise<Response> => {
     try {
         const gameId = req.params.id;
-
-        if (await Game.findByPk(gameId) === null) {
-            throw new Error('Game not found.');
-        }
-
-        const data = await Match.findAll({
-            attributes: [
-                'playerId',
-                [Sequelize.fn('max', Sequelize.col('score')), 'highScore'],
-                'playedAt'
-            ],
-            where: {
-                gameId: gameId
-            },
-            group: 'playerId',
-            order: [
-                ['highScore', 'DESC']
-            ]
-        });
-
-        if (data === null || data.length == 0) {
-            throw new Error('No rankings were found.');
-        }
-
-        return res.status(StatusCodes.OK).json(data);
+        await gameService.getById(gameId);
+        const rankingsData = await gameService.getRankings(gameId);
+        return res.status(StatusCodes.OK).json(rankingsData);
     } catch (e) {
         console.log(e);
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(e.message);
@@ -40,11 +16,11 @@ const rankings = async (req: Request<{ id: string }>, res: Response): Promise<Re
 }
 
 interface GameController extends Controller {
-    rankings: (red: Request<{ id: string }>, res: Response) => Promise<Response>;
+    getRankings: (red: Request<{ id: string }>, res: Response) => Promise<Response>;
 }
 
 const gameController: GameController = {
-    rankings: rankings
+    getRankings: getRankings
 }
 
 export default gameController;
