@@ -1,6 +1,6 @@
 import { Sequelize } from 'sequelize';
-import Game from '../models/game.model';
-import Match from '../models/match.model';
+import Game from '../models/game.model.js';
+import Match from '../models/match.model.js';
 
 const gameService = {
     getById: async (gameId: string): Promise<Game> => {

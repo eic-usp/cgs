@@ -2,14 +2,15 @@
   "name": "cgs",
   "version": "0.1.0",
   "description": "Central Game Server",
-  "main": "build/app.js",
+  "main": "src/bin/www.ts",
   "repository": "git@github.com:eic-usp/cgs.git",
   "author": "Lucas Xavier Leite <lucasxavierleite@pm.me>",
   "license": "Apache-2.0",
   "type": "module",
   "scripts": {
-    "start": "yarn tsc && node ./build/bin/www.js",
-    "dev": "nodemon ./bin/www.ts"
+    "build": "rm -rf ./dist/* && ./node_modules/.bin/tsc && cp .env* ./dist",
+    "start": "yarn run build && node ./dist/bin/www.js",
+    "dev": "nodemon ./src/bin/www.ts"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",

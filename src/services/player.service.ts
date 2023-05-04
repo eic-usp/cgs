@@ -1,5 +1,5 @@
 import { Sequelize, Op } from 'sequelize';
-import Player from '../models/player.model';
+import Player from '../models/player.model.js';
 
 const playerService = {
     create: async (player: Player): Promise<Player> => await Player.create(player),

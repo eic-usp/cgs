@@ -1,5 +1,5 @@
 import { Model, DataTypes, InferAttributes, InferCreationAttributes, CreationOptional } from 'sequelize';
-import db from '../db';
+import db from '../db.js';
 
 class Game extends Model<InferAttributes<Game>, InferCreationAttributes<Game>> {
     declare id: string;

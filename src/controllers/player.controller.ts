@@ -3,12 +3,12 @@ import { StatusCodes } from 'http-status-codes';
 import { ForeignKeyConstraintError, ValidationError } from 'sequelize';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import config from '../config';
-import Controller from './Controller';
-import Player from '../models/player.model';
-import Match from '../models/match.model';
-import playerService from '../services/player.service';
-import gameService from '../services/game.service';
+import config from '../config.js';
+import Controller from './Controller.js';
+import Player from '../models/player.model.js';
+import Match from '../models/match.model.js';
+import playerService from '../services/player.service.js';
+import gameService from '../services/game.service.js';
 
 const create = async (req: Request<never, never, Player>, res: Response): Promise<Response> => {
     const player = req.body;

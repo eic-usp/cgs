@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import jwt, { JwtPayload } from 'jsonwebtoken';
-import config from '../config';
+import config from '../config.js';
 
 const verify = async (req: Request, res: Response, next: NextFunction): Promise<Response | void> => {
     const authorization = req.headers.authorization ?? req.cookies[config.COOKIE_NAME_AUTHORIZATION];

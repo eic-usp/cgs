@@ -1,5 +1,5 @@
 import { Sequelize, SyncOptions } from 'sequelize';
-import config from './config';
+import config from './config.js';
 
 const sequelize = new Sequelize(config.DB_URI, {
     dialect: config.DB_DIALECT,

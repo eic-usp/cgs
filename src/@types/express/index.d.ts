@@ -1,4 +1,4 @@
-import Player from '../../models/player.model';
+import Player from '../../models/player.model.js';
 
 declare global {
     namespace Express {

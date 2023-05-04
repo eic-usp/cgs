@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import Controller from './Controller';
-import gameService from '../services/game.service';
+import Controller from './Controller.js';
+import gameService from '../services/game.service.js';
 
 const getRankings = async (req: Request<{ id: string }>, res: Response): Promise<Response> => {
     try {

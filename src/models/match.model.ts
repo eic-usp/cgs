@@ -1,7 +1,7 @@
 import { Model, DataTypes, InferAttributes, InferCreationAttributes, CreationOptional, ForeignKey } from 'sequelize';
-import db from '../db';
-import Player from './player.model';
-import Game from './game.model';
+import db from '../db.js';
+import Player from './player.model.js';
+import Game from './game.model.js';
 
 class Match extends Model<InferAttributes<Match>, InferCreationAttributes<Match>> {
     declare id: CreationOptional<number>;

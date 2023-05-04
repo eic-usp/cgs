@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { ForeignKeyConstraintError, ValidationError } from 'sequelize';
-import Controller from './Controller';
-import Match from "../models/match.model";
-import matchService from '../services/match.services';
+import Controller from './Controller.js';
+import Match from "../models/match.model.js";
+import matchService from '../services/match.services.js';
 
 const create = async (req: Request<{ gameId: string }, never, Match>, res: Response): Promise<Response> => {
     const match = req.body;
