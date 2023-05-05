@@ -13,7 +13,7 @@ const getRankings = async (req: Request<{ id: string }>, res: Response): Promise
         console.log(e);
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(e.message);
     }
-}
+};
 
 interface GameController extends Controller {
     getRankings: (red: Request<{ id: string }>, res: Response) => Promise<Response>;
@@ -21,6 +21,6 @@ interface GameController extends Controller {
 
 const gameController: GameController = {
     getRankings: getRankings
-}
+};
 
 export default gameController;

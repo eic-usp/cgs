@@ -1,4 +1,4 @@
-import 'dotenv/config'
+import 'dotenv/config';
 import { Dialect } from 'sequelize';
 
 const config = {
@@ -13,8 +13,8 @@ const config = {
         return {
             httpOnly: true,
             secure: this.NODE_ENV === 'production'
-        }
+        };
     }
-}
+};
 
 export default config;

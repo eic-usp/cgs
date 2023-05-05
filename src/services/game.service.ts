@@ -35,6 +35,6 @@ const gameService = {
 
         return (playerId && rankingsData[0]) || rankingsData;
     }
-}
+};
 
 export default gameService;

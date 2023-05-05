@@ -21,10 +21,10 @@ const create = async (req: Request<{ gameId: string }, never, Match>, res: Respo
 
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(e);
     }
-}
+};
 
 const matchController: Controller = {
     create: create
-}
+};
 
 export default matchController;

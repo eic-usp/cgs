@@ -1,4 +1,4 @@
-import { Sequelize, Op } from 'sequelize';
+import { Op } from 'sequelize';
 import Player from '../models/player.model.js';
 
 const playerService = {
@@ -29,6 +29,6 @@ const playerService = {
         return player;
 
     }
-}
+};
 
 export default playerService;

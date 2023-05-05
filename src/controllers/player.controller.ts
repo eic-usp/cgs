@@ -24,7 +24,7 @@ const create = async (req: Request<never, never, Player>, res: Response): Promis
 
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(e);
     }
-}
+};
 
 interface PlayerLoginAttributes {
     emailOrId: string;
@@ -60,7 +60,7 @@ const login = async (req: Request<never, never, PlayerLoginAttributes>, res: Res
         console.error(e);
         return res.status(StatusCodes.UNAUTHORIZED).send(e.message);
     }
-}
+};
 
 const validate = async (req: Request, res: Response): Promise<Response> => {
     try {
@@ -70,7 +70,7 @@ const validate = async (req: Request, res: Response): Promise<Response> => {
     } catch (e) {
         return res.status(StatusCodes.UNAUTHORIZED).send(e.message);
     }
-}
+};
 
 const getRanking = async (req: Request<{ gameId: string }>, res: Response): Promise<Response> => {
     try {
@@ -82,7 +82,7 @@ const getRanking = async (req: Request<{ gameId: string }>, res: Response): Prom
         console.log(e);
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(e);
     }
-}
+};
 
 // const update = (req: Request<never, never, Player>, res: Response): Promise<Response> {};
 // const remove = (req: Request<{ id: string }>, res: Response): Promise<Response> {};

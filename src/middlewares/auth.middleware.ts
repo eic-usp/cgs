@@ -20,10 +20,10 @@ const verify = async (req: Request, res: Response, next: NextFunction): Promise<
     } catch (e) {
         return res.status(StatusCodes.UNAUTHORIZED).end();
     }
-}
+};
 
 const auth = {
     verify: verify
-}
+};
 
 export default auth;

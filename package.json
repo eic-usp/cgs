@@ -10,7 +10,8 @@
   "scripts": {
     "build": "rm -rf ./dist/* && ./node_modules/.bin/tsc && cp .env* ./dist",
     "start": "yarn run build && node ./dist/bin/www.js",
-    "dev": "nodemon ./src/bin/www.ts"
+    "dev": "nodemon ./src/bin/www.ts",
+    "lint": "eslint . --ext .ts"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
@@ -20,6 +21,9 @@
     "@types/jsonwebtoken": "^9.0.1",
     "@types/morgan": "^1.9.4",
     "@types/node": "^18.15.11",
+    "@typescript-eslint/eslint-plugin": "^5.59.2",
+    "@typescript-eslint/parser": "^5.59.2",
+    "eslint": "^8.39.0",
     "nodemon": "^2.0.22",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.4"
