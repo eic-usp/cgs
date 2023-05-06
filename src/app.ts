@@ -23,26 +23,23 @@ app.use(cors());
 app.use(cookieParser());
 app.use(morgan('dev'));
 
-await db.connect();
+try {
+    await db.connect();
 
-if (config.NODE_ENV === 'development') {
-    try {
+    if (config.NODE_ENV === 'development' && config.RESET_DATABASE_ON_START) {
         await db.sequelize.query('SET FOREIGN_KEY_CHECKS = 0', { raw: true });
         await db.sequelize.sync({ force: true });
         await db.sequelize.query('SET FOREIGN_KEY_CHECKS = 1', { raw: true });
-    } catch (e) {
-        console.error(e);
-    }
-}
 
-try {
-    await Game.create({
-        id: 'TestGame',
-        displayName: 'Some Game'
-    });
-} catch (e)
-{
-    console.log(e);
+        await Game.create({
+            id: 'TestGame',
+            displayName: 'Some Game'
+        });
+    } else {
+        await db.sequelize.sync();
+    }
+} catch (e) {
+    console.error(e);
 }
 
 app.use('/', express.static(path.join(__dirname, '../public')));
