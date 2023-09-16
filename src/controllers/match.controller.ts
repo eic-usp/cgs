@@ -18,9 +18,15 @@ const create = async (req: Request<{ gameId: string }, never, Match>, res: Respo
             const personalBest = await playerService.getPersonalBest(match.playerId, match.gameId);
             newPersonalBest = (match.score > personalBest);
         } catch (e) {
+            console.error(e);
+
             const cause = (e as Error).cause as ErrorCause;
-            newPersonalBest = (cause.code === 'NoScoreFound');
-            console.error(e)
+
+            if (cause !== undefined && cause.code === 'NoScoreFound') {
+                newPersonalBest = true;
+            } else {
+                throw e;
+            }
         }
 
         await matchService.create(match);
