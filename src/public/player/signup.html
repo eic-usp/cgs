@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width" />
+        <title>Criar uma conta</title>
+    </head>
+    <body>
+        <form action="https://eic.ifsc.usp.br/cgs/api/player" method="post">
+        <!-- <form action="http://localhost:3000/api/player/" method="post"> -->
+            <label for="id">ID</label>
+            <input type="text" name="id" minlength="4" maxlength="10" required>
+            <br>
+            <label for="password">Senha</label>
+            <input type="password" name="password" minlength="8" required>
+            <br>
+            <label for="email">E-mail</label>
+            <input type="email" name="email" required>
+            <br>
+            <label for="firstName">Nome</label>
+            <input type="text" name="firstName" required>
+            <br>
+            <label for="lastName">Sobrenome</label>
+            <input type="text" name="lastName" required>
+            <br>
+            <label for="birthdate">Data de nascimento</label>
+            <input type="date" name="birthdate" required>
+            <br>
+            <input type="submit" value="Cadastrar">
+        </form>
+    </body>
+</html>
