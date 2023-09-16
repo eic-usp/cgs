@@ -42,7 +42,7 @@ try {
     console.error(e);
 }
 
-app.use('/', express.static(path.join(__dirname, 'public')));
+app.use('/', express.static(path.join(__dirname, 'public'), { extensions: ['html'] }));
 app.use('/ping', (_, res) => res.status(200).send('Pong'));
 
 app.use('/api/player', playerRoutes);
