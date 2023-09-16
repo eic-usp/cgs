@@ -4,7 +4,7 @@ import Player from '../models/player.model.js';
 const playerService = {
     create: async (player: Player): Promise<Player> => await Player.create(player),
     getById: async (playerId: string): Promise<Player> => {
-        const player = await Player.findByPk(playerId);
+        const player = await Player.findByPk(playerId, { raw: true });
 
         if (player === null) {
             throw new Error('Player not found.');
@@ -19,7 +19,8 @@ const playerService = {
                     { id: emailOrId },
                     { email: emailOrId}
                 ]
-            }
+            },
+            raw: true
         });
 
         if (player === null) {
@@ -27,7 +28,6 @@ const playerService = {
         }
 
         return player;
-
     }
 };
 

@@ -8,9 +8,10 @@
   "license": "Apache-2.0",
   "type": "module",
   "scripts": {
-    "build": "rm -rf ./dist/* && ./node_modules/.bin/tsc && cp .env* ./dist",
-    "start": "yarn run build && node ./dist/bin/www.js",
+    "build": "rm -rf ./dist/* && yarn tsc && yarn copy",
+    "start": "yarn build && node ./dist/bin/www.js",
     "dev": "nodemon ./src/bin/www.ts",
+    "copy": "cp -r .env ./src/public ./dist",
     "lint": "eslint . --ext .ts"
   },
   "devDependencies": {

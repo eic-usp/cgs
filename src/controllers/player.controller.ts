@@ -18,6 +18,8 @@ const create = async (req: Request<never, never, Player>, res: Response): Promis
         await playerService.create(player);
         return res.status(StatusCodes.OK).send('Player created successfully.');
     } catch (e) {
+        console.error(e)
+
         if (e instanceof ForeignKeyConstraintError || e instanceof ValidationError) {
             return res.status(StatusCodes.BAD_REQUEST).send(e);
         }
@@ -68,7 +70,20 @@ const validate = async (req: Request, res: Response): Promise<Response> => {
         await playerService.getById(playerId);
         return res.status(StatusCodes.OK).end();
     } catch (e) {
+        console.error(e);
         return res.status(StatusCodes.UNAUTHORIZED).send(e.message);
+    }
+};
+
+const getStatus = async (req: Request, res: Response): Promise<Response> => {
+    try {
+        const playerId = req.user.id;
+        const player = await playerService.getById(playerId);
+        delete player.password;
+        return res.status(StatusCodes.OK).send(player);
+    } catch (e) {
+        console.error(e);
+        res.status(StatusCodes.UNAUTHORIZED).send(e.message);
     }
 };
 
@@ -79,7 +94,7 @@ const getRanking = async (req: Request<{ gameId: string }>, res: Response): Prom
         const ranking = await gameService.getRankings(gameId, playerId) as Match;
         return res.status(StatusCodes.OK).json(ranking);
     } catch (e) {
-        console.log(e);
+        console.error(e);
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(e);
     }
 };
@@ -92,6 +107,7 @@ const getRanking = async (req: Request<{ gameId: string }>, res: Response): Prom
 interface PlayerController extends Controller {
     login: (req: Request<never, never, PlayerLoginAttributes>, res: Response) => Promise<Response>;
     validate: (req: Request, res: Response) => Promise<Response>;
+    getStatus: (req: Request, res: Response) => Promise<Response>;
     getRanking: (req: Request<{ gameId: string }>, res: Response) => Promise<Response>;
 }
 
@@ -99,6 +115,7 @@ const playerController: PlayerController = {
     create: create,
     login: login,
     validate: validate,
+    getStatus: getStatus,
     getRanking: getRanking
 };
 

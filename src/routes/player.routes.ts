@@ -5,6 +5,7 @@ import auth from '../middlewares/auth.middleware.js';
 const playerRoutes = express.Router();
 
 playerRoutes.post('/', playerController.create);
+playerRoutes.get('/', auth.verify, playerController.getStatus);
 // playerRoutes.get('/', playerController.findAll);
 // playerRoutes.get('/:id', playerController.find);
 // playerRoutes.put('/:id', playerController.update);

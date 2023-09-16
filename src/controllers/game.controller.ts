@@ -8,9 +8,9 @@ const getRankings = async (req: Request<{ id: string }>, res: Response): Promise
         const gameId = req.params.id;
         await gameService.getById(gameId);
         const rankingsData = await gameService.getRankings(gameId);
-        return res.status(StatusCodes.OK).json(rankingsData);
+        return res.status(StatusCodes.OK).json({ entries:  rankingsData });
     } catch (e) {
-        console.log(e);
+        console.error(e);
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(e.message);
     }
 };

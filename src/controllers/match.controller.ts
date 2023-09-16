@@ -14,7 +14,7 @@ const create = async (req: Request<{ gameId: string }, never, Match>, res: Respo
         await matchService.create(match);
         return res.status(StatusCodes.OK).send('Match created successfully.');
     } catch (e) {
-        console.log(e);
+        console.error(e);
         if (e instanceof ForeignKeyConstraintError || e instanceof ValidationError) {
             return res.status(StatusCodes.BAD_REQUEST).send(e);
         }
