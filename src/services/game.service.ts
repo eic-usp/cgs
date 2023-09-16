@@ -13,7 +13,7 @@ const gameService = {
         return game;
     },
     getRankings: async (gameId: string, playerId?: string): Promise<Match[] | Match> => {
-        const rankingsData =  await Match.findAll({
+        const rankingsData = await Match.findAll({
             attributes: [
                 'playerId',
                 [Sequelize.fn('max', Sequelize.col('score')), 'highScore'],

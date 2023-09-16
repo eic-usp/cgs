@@ -1,5 +1,6 @@
 import { Op } from 'sequelize';
 import Player from '../models/player.model.js';
+import Match from '../models/match.model.js';
 
 const playerService = {
     create: async (player: Player): Promise<Player> => await Player.create(player),
@@ -28,6 +29,27 @@ const playerService = {
         }
 
         return player;
+    },
+    getPersonalBest: async (playerId: string, gameId: string): Promise<number> => {
+        const personalBest : number = await Match.max('score',
+        {
+            where: {
+                gameId: gameId,
+                playerId: playerId
+            }
+        });
+
+        if (personalBest === null)
+        {
+            throw new Error('No scores found.', {
+                cause: {
+                    code: 'NoScoreFound',
+                    values: [playerId, gameId]
+                }
+            });
+        }
+
+        return personalBest;
     }
 };
 
