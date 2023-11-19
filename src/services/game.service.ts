@@ -29,9 +29,9 @@ const gameService = {
             ]
         });
 
-        if (rankingsData === null || rankingsData.length == 0) {
-            throw new Error('No rankings were found.');
-        }
+        //if (rankingsData === null || rankingsData.length == 0) {
+            //throw new Error('No rankings were found.');
+        //}
 
         return (playerId && rankingsData[0]) || rankingsData;
     }
